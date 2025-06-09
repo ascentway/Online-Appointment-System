@@ -15,7 +15,7 @@ const Signup = () => {
     mobileNumber: '',
     city: '',
     state: '',
-    houseNameOrNumber: '',
+    houseNumberOrName: '',
     streetName: '',
     specialization: '',
     hospital: '',
@@ -34,36 +34,55 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const signupData = {
+    const signupDataPatient = {
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
-      role,
       mobileNumber: formData.mobileNumber,
-      address: {
-        city: formData.city,
-        state: formData.state,
-        houseNameOrNumber: formData.houseNameOrNumber,
-        streetName: formData.streetName,
-      },
-      ...(role === 'doctor' && {
-        specialization: formData.specialization,
-        hospital: formData.hospital,
-        yearsOfExperience: formData.yearsOfExperience,
-      }),
+
+      city: formData.city,
+      state: formData.state,
+      houseNumberOrName: formData.houseNumberOrName,
+      streetName: formData.streetName,
+
     };
 
-    axios.post('http://localhost:8080/api/auth/signup', signupData)
-      .then(response => {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('role', role);
-        navigate('/records');
-      })
-      .catch(error => {
-        console.error('Error signing up:', error);
-        alert('Error signing up. Please try again.');
-      });
+    const signupDataDoctor = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      mobileNumber: formData.mobileNumber,
+      specialization: formData.specialization,
+      hospital: formData.hospital,
+      yearsOfExperience: formData.yearsOfExperience,
+    };
+    // navigate('/records');
+    if (role === 'doctor') {
+      axios.post('http://localhost:8080/doctor/save', signupDataDoctor)
+        .then(response => {
+          // localStorage.setItem('token', response.data.token);
+          localStorage.setItem('role', role);
+          navigate('/login');
+        })
+        .catch(error => {
+          console.error('Error signing up:', error);
+          alert('Error signing up. Please try again.');
+        });
+    }
+    else if (role === 'patient') {
+      axios.post('http://localhost:8080/patient/save', signupDataPatient)
+        .then(response => {
+          // localStorage.setItem('token', response.data.token);
+          localStorage.setItem('role', role);
+          navigate('/login');
+        })
+        .catch(error => {
+          console.error('Error signing up:', error);
+          alert('Error signing up. Please try again.');
+        });
+    }
   };
 
   return (
@@ -194,14 +213,14 @@ const Signup = () => {
                     />
                   </div>
                   <div className="mb-4">
-                    <label htmlFor="houseNameOrNumber" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="houseNumberOrName" className="block text-sm font-medium text-gray-700 mb-2">
                       House Name or Number
                     </label>
                     <input
                       type="text"
-                      id="houseNameOrNumber"
-                      name="houseNameOrNumber"
-                      value={formData.houseNameOrNumber}
+                      id="houseNumberOrName"
+                      name="houseNumberOrName"
+                      value={formData.houseNumberOrName}
                       onChange={handleInputChange}
                       className="border border-gray-300 rounded-lg px-4 py-2 w-full"
                       required

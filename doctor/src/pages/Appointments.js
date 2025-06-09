@@ -4,15 +4,32 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import axios from 'axios';
 
+
+
 const Appointments = () => {
-  const [doctors, setDoctors] = useState([]);
+  const [doctors, setDoctors] = useState([
+  //   {
+  //     id: 1,
+  // name: "Dr. John Doe",
+  // specialization: "Cardiology",
+  // availableSlots: [ "12:00","1:00"]
+  // },{
+  //   id:2,
+  //    name: 'Neon',
+  //   specialization: 'orthopedist',
+  // },{
+  //   id:3,
+  //    name: 'Smith',
+  //   specialization: 'Ontocologist',
+  // }
+]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [appointmentDate, setAppointmentDate] = useState('');
 
   useEffect(() => {
     // Fetch the list of doctors from the backend
-    axios.get('/api/doctors')
+    axios.get('http://localhost:8080/doctor/allDoctors')
       .then(response => {
         setDoctors(response.data);
       })
@@ -22,11 +39,13 @@ const Appointments = () => {
   }, []);
 
   const handleDoctorSelect = (doctor) => {
+    console.log(doctor);
     setSelectedDoctor(doctor);
     setSelectedSlot(null);
   };
 
   const handleSlotSelect = (slot) => {
+     console.log(slot);
     setSelectedSlot(slot);
   };
 
@@ -35,24 +54,27 @@ const Appointments = () => {
   };
 
   const handleBookAppointment = () => {
+    console.log(selectedDoctor);
+    console.log(selectedSlot);
+    console.log(appointmentDate);
     if (!selectedDoctor || !selectedSlot || !appointmentDate) {
       alert('Please select a doctor, time slot, and date.');
       return;
     }
 
-    // Send the appointment details to the backend
-    axios.post('/api/appointments', {
-      doctorId: selectedDoctor.id,
-      date: appointmentDate,
-      time: selectedSlot,
-    })
-      .then(response => {
-        alert('Appointment booked successfully!');
-      })
-      .catch(error => {
-        console.error('Error booking appointment:', error);
-        alert('Error booking appointment. Please try again.');
-      });
+    // // Send the appointment details to the backend
+    // axios.post('/api/appointments', {
+    //   doctorId: selectedDoctor.id,
+    //   date: appointmentDate,
+    //   time: selectedSlot,
+    // })
+    //   .then(response => {
+    //     alert('Appointment booked successfully!');
+    //   })
+    //   .catch(error => {
+    //     console.error('Error booking appointment:', error);
+    //     alert('Error booking appointment. Please try again.');
+    //   });
   };
 
   return (
@@ -78,11 +100,11 @@ const Appointments = () => {
             <div className="space-y-4">
               {doctors.map(doctor => (
                 <div
-                  key={doctor.id}
+                  key={doctor.did}
                   onClick={() => handleDoctorSelect(doctor)}
-                  className={`border rounded-lg p-4 cursor-pointer ${selectedDoctor?.id === doctor.id ? 'bg-blue-100' : 'bg-white'}`}
+                  className={`border rounded-lg p-4 cursor-pointer ${selectedDoctor?.id === doctor.did ? 'bg-blue-100' : 'bg-white'}`}
                 >
-                  <h3 className="text-xl font-bold">{doctor.name}</h3>
+                  <h3 className="text-xl font-bold">{doctor.firstName} {doctor.lastName}</h3>
                   <p className="text-gray-700">{doctor.specialization}</p>
                 </div>
               ))}
@@ -93,13 +115,13 @@ const Appointments = () => {
               <div>
                 <h2 className="text-2xl font-bold mb-4">Available Time Slots</h2>
                 <div className="grid grid-cols-2 gap-4">
-                  {selectedDoctor.availableSlots.map(slot => (
+                  {selectedDoctor.slots.map(slot => (
                     <div
-                      key={slot}
+                      key={slot.sid}
                       onClick={() => handleSlotSelect(slot)}
                       className={`border rounded-lg p-4 cursor-pointer text-center ${selectedSlot === slot ? 'bg-blue-500 text-white' : 'bg-white'}`}
                     >
-                      {slot}
+                      {slot.startTime}<span> - </span> {slot.endTime}
                     </div>
                   ))}
                 </div>

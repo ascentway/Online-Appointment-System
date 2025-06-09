@@ -1,4 +1,3 @@
-// src/pages/Login.js
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -35,20 +34,21 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle login
-    axios.post('http://localhost:8080/api/auth/login', {
-      email: formData.email,
-      password: formData.password,
-      role,
-    })
-      .then(response => {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('role', role);
-        navigate('/records');
-      })
-      .catch(error => {
-        console.error('Error logging in:', error);
-        alert('Error logging in. Please try again.');
-      });
+    navigate('/appointments')
+    // axios.post('http://localhost:8080/api/auth/login', {
+    //   email: formData.email,
+    //   password: formData.password,
+    //   role,
+    // })
+    //   .then(response => {
+    //     localStorage.setItem('token', response.data.token);
+    //     localStorage.setItem('role', role);
+    //     navigate('/appointments'); // Redirect to appointment booking page after login
+    //   })
+    //   .catch(error => {
+    //     console.error('Error logging in:', error);
+    //     alert('Error logging in. Please try again.');
+    //   });
   };
 
   return (

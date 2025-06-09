@@ -1,9 +1,18 @@
-// src/pages/Home.js
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import {useNavigate} from 'react-router-dom';
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleBookAppointment = () => {
+    const token = localStorage.getItem('token');
+    if(!token){
+      navigate('/login');
+    }else {
+      navigate('/appointments')
+    }
+  }
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -12,7 +21,8 @@ const Home = () => {
           <div className="container mx-auto text-center">
             <h1 className="text-4xl font-bold mb-4">Welcome to Our Doctor Appointment System</h1>
             <p className="text-xl mb-8">Book appointments with ease and manage your health records online.</p>
-            <button className="bg-white text-purple-800 px-4 py-2 rounded-lg font-bold hover:bg-green-200">Book an Appointment</button>
+            <button onClick={handleBookAppointment}
+            className="bg-white text-purple-800 px-4 py-2 rounded-lg font-bold hover:bg-green-200">Book an Appointment</button>
           </div>
         </section>
         <section className="container mx-auto py-10">
