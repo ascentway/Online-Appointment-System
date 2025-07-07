@@ -23,7 +23,7 @@ const Appointments = () => {
   //   specialization: 'Ontocologist',
   // }
 ]);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState((null));
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [appointmentDate, setAppointmentDate] = useState('');
 
@@ -62,19 +62,20 @@ const Appointments = () => {
       return;
     }
 
-    // // Send the appointment details to the backend
-    // axios.post('/api/appointments', {
-    //   doctorId: selectedDoctor.id,
-    //   date: appointmentDate,
-    //   time: selectedSlot,
-    // })
-    //   .then(response => {
-    //     alert('Appointment booked successfully!');
-    //   })
-    //   .catch(error => {
-    //     console.error('Error booking appointment:', error);
-    //     alert('Error booking appointment. Please try again.');
-    //   });
+    // Send the appointment details to the backend
+    axios.post('http://localhost:8080/appointments/book', {
+      doctor: { did: selectedDoctor.did },
+      patient: { pid: 4 },
+      slot: { sid: selectedSlot.sid},// F
+      dateBooked: appointmentDate,
+    })
+      .then(response => {
+        alert('Appointment booked successfully!');
+      })
+      .catch(error => {
+        console.error('Error booking appointment:', error);
+        alert('Error booking appointment. Please try again.');
+      });
   };
 
   return (

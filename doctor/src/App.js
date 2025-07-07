@@ -7,9 +7,12 @@ import Doctors from './pages/Doctors';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Records from './pages/Records';
+import Profile from './pages/Profile';
+import { AuthProvider } from './pages/Context';
 
 const App = () => {
   return (
+    <AuthProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -18,9 +21,10 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/records" element={<Records />} />
-        {/* Add more routes here */}
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 };
 

@@ -5,18 +5,22 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 
 const PatientRecords = () => {
-  const [doctors, setDoctors] = useState([]);
+  const [doctors, setDoctors] = useState([{
+      id: 1,
+  name: "Dr. John Doe",
+  specialization: "Cardiology"
+  }]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   useEffect(() => {
     // Fetch the list of doctors from the backend
-    axios.get('http://localhost:8080/api/patient/doctors')
-      .then(response => {
-        setDoctors(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching doctors:', error);
-      });
+    // axios.get('http://localhost:8080/api/patient/doctors')
+    //   .then(response => {
+    //     setDoctors(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching doctors:', error);
+    //   });
   }, []);
 
   const handleDoctorSelect = (doctor) => {

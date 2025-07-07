@@ -1,4 +1,3 @@
-// src/pages/Records.js
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -17,14 +16,14 @@ const Records = () => {
       navigate('/login');
     } else {
       // Fetch records based on user role
-      const endpoint = userRole === 'doctor' ? 'http://localhost:3001/doctorPatients' : 'http://localhost:3001/patientDoctors';
-      axios.get(endpoint)
-        .then(response => {
-          setRecords(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching records:', error);
-        });
+      // const endpoint = userRole === 'doctor' ? 'http://localhost:3001/doctorPatients' : 'http://localhost:3001/patientDoctors';
+      // axios.get(endpoint)
+      //   .then(response => {
+      //     setRecords(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.error('Error fetching records:', error);
+      //   });
     }
   }, [userRole, navigate]);
 
